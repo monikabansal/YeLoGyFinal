@@ -17,6 +17,8 @@
 package com.yelogy.utill
 
 import android.content.Context
+import com.yelogy.login.LoginRepository
+import com.yelogy.login.LoginViewModelFactory
 import com.yelogy.signup.SignupRepository
 import com.yelogy.signup.SignupViewModelFactory
 
@@ -30,5 +32,11 @@ object InjectorUtils {
 
         val signupRepository=SignupRepository(context)
         return SignupViewModelFactory(signupRepository)
+    }
+
+    fun provideLoginViewModelFactory(context: Context): LoginViewModelFactory {
+
+        val loginRepository=LoginRepository(context)
+        return LoginViewModelFactory(loginRepository)
     }
 }

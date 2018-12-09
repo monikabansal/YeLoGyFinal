@@ -45,8 +45,6 @@
     <style name="ProductTitleTextStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/_14sdp</item>
-        <item name="android:textColorHint">@color/white</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -65,7 +63,7 @@
     </style>
 
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/buttonOrangeColor</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
 
@@ -79,6 +77,11 @@
 
     <style name="RadioButtonTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/orange_1</item>
+    </style>
+
+    <style name="WhiteTextStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
     </style>
 
     <style name="BoldBlackText10Style">
@@ -108,7 +111,7 @@
 
 
     <style name="DeliveryTypeTheme" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/orange_1</item>
+        <item name="colorAccent">@color/colorPrimary</item>
 
     </style>
 
@@ -142,6 +145,13 @@
 
     <style name="error_appearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorRed</item>
+    </style>
+
+
+    <style name="LightWhiteTextColorStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:textColorHint">@color/white</item>
     </style>
 
 

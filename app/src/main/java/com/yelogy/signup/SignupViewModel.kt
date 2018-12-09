@@ -1,5 +1,6 @@
 package com.yelogy.signup
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.databinding.ObservableList
@@ -8,20 +9,22 @@ import android.view.View
 import com.yelogy.R
 import com.yelogy.utill.ValidationUtil
 
-class SignupViewModel(private val signupRepository: SignupRepository) :ViewModel() {
+class SignupViewModel(private val signupRepository: SignupRepository) : ViewModel() {
 
-        val signUpRequest=SignUpRequest()
+    val signUpRequest = SignUpRequest()
 
-val firstname_error = ObservableField<String>()
+    val firstname_error = ObservableField<String>()
     val pincode_error = ObservableField<String>()
     val mobile_error = ObservableField<String>()
     val emailError = ObservableField<String>()
     val passowrd_error = ObservableField<String>()
     val confirmpassword_error = ObservableField<String>()
+    val signupResponse : LiveData<SignupResponse> = signupRepository.signupResponse
 
-    fun onSingupClick(){
-        if(validateSignUp()){
-signupRepository.onSignupApiCalling(signUpRequest)
+    fun onSingupClick() {
+        signupRepository.hideKeyboard()
+        if (validateSignUp()) {
+            signupRepository.onSignupApiCalling(signUpRequest)
         }
 
     }
@@ -42,7 +45,7 @@ signupRepository.onSignupApiCalling(signUpRequest)
             mobile_error.set(signupRepository.context.getString(R.string.enter_phone_number))
             return false
         }
-        if (signUpRequest.mobileNumber?.length?:0 < 8) {
+        if (signUpRequest.mobileNumber?.length ?: 0 < 8) {
             mobile_error.set(signupRepository.context.getString(R.string.valid_phone_number))
             return false
         }
@@ -64,7 +67,7 @@ signupRepository.onSignupApiCalling(signUpRequest)
             return false
         }
 
-        if (signUpRequest.password?.length?:0 < 6) {
+        if (signUpRequest.password?.length ?: 0 < 6) {
             passowrd_error.set(signupRepository.context.getString(R.string.short_password))
             return false
         }

@@ -15,4 +15,8 @@ interface YelogyApi {
     @FormUrlEncoded
     @POST("signup")
     fun signup(@FieldMap signupRequest: Map<String, String>): Observable<SignupResponse>
+
+    @FormUrlEncoded
+    @POST("login")
+    fun login(@FieldMap loginRequest: Map<String, String>): Observable<SignupResponse>
 }

@@ -38,4 +38,45 @@
     <string name="dont_match_password">Passwords don\'t match</string>
     <string name="enter_pin_code">Please enter your pin code</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="notification_setting">Notification</string>
+    <string name="notifications">Notifications</string>
+    <string name="my_wallet">My Wallet</string>
+    <string name="delivery_address">My Delivery addresses</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
+    <string name="my_gift_card">my Gift Card</string>
+    <string name="refer_and_earn"><![CDATA[Refer & Earn]]></string>
+    <string name="my_orders">My Orders</string>
+    <string name="my_account">My Account</string>
+    <string name="register">Register</string>
+
+
+    <string name="want_to_logout">Are you sure you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="search">Search</string>
+    <string name="set_delivery_location">Select Your Location</string>
+    <string name="use_this_location">SET MY LOCATION</string>
+    <string name="delivery_address_">DELIVERY LOCATION</string>
+    <string name="address">Address</string>
+
+    <string name="address_search_hint">Search for your delivery location</string>
+    <string name="enter_address_or_move_pin">Please enter your address or move pin</string>
+
+
+
+    <!--location permission-->
+    <string name="location_service_disabled_title">Location Service Disabled</string>
+    <string name="location_service_disabled_text">Please enable location service</string>
+    <string name="enable">Enable</string>
+    <string name="location">Location</string>
+    <string name="apko_kya_chaiye">Apko Kya Chahiye?</string>
+    <string name="outlate_near_me">Outlate Nearby Me</string>
+    <string name="order_assistant">Order Assistant</string>
+    <string name="change">Change</string>
+
+
 </resources>
