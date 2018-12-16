@@ -35,8 +35,8 @@
                     android:padding="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingStart="@dimen/_10sdp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
+                    android:textColor="@color/gray_text_color"
+                    android:textColorHint="@color/gray_text_color"
                     android:textSize="@dimen/_13sdp" />
 
                     <Button
@@ -79,10 +79,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/outlate_near_me"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray_text_color"
                     android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
                     android:paddingStart="@dimen/_20sdp"
                     android:textSize="@dimen/_14sdp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/grey_color_txt"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"

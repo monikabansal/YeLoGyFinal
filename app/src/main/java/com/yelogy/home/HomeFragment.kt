@@ -13,6 +13,10 @@ import com.yelogy.DeliveryAddessPickupActivity
 import com.yelogy.R
 import com.yelogy.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 
 /**
@@ -24,11 +28,10 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(
-                inflater, R.layout.fragment_home, container, false)
+        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater, R.layout.fragment_home, container, false)
         return binding.root
     }
 
@@ -36,9 +39,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setStoreAdapter()
         setHomeBannerAdapter()
+        val itemDecorator = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)
+        itemDecorator.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.item_divider)!!)
+        recyclerView.addItemDecoration(itemDecorator)
     }
-
-
 
     private fun setHomeBannerAdapter() {
         bannerPager.adapter = SlidingImageAdapterHomeBanner(activity!!)

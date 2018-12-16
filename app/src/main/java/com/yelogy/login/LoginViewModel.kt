@@ -21,18 +21,13 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         if (validateLogin()) {
             loginRepository.onLoginApiCalling(loginRequest)
         }
-
-
-
     }
 
     fun onSignupClick(){
         loginRepository.hideKeyboard()
-
     }
     fun onForgotPasswordClick(){
         loginRepository.hideKeyboard()
-
     }
 
     private fun validateLogin(): Boolean {

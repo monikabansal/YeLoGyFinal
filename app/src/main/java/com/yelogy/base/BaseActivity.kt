@@ -1,6 +1,9 @@
 package com.yelogy.base
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -13,7 +16,8 @@ import kotlinx.android.synthetic.main.app_bar_main2.*
 abstract class BaseActivity : AppCompatActivity(), GernalCallBack {
 
     private var progressBar: View? = null
-
+     val MIN_TIME: Long = 400
+     val MIN_DISTANCE = 1000f
     override fun hideKeyboard() {
         KeyboardUtils.hideSoftInput(this)
     }
@@ -62,5 +66,16 @@ abstract class BaseActivity : AppCompatActivity(), GernalCallBack {
         val v = this.findViewById<View>(android.R.id.content).rootView
         val viewGroup = v as ViewGroup
         viewGroup.addView(progressBar)
+    }
+
+    fun showGpsRequest() {
+
+        val mAlertDialog = AlertDialog.Builder(this)
+        mAlertDialog.setTitle(R.string.location_service_disabled_title)
+                .setMessage(R.string.location_service_disabled_text)
+                .setPositiveButton(R.string.enable) { _, _ ->
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+                }.show()
     }
 }

@@ -3,6 +3,7 @@ package com.yelogy
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -32,6 +34,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.os.drewel.prefrences.Prefs
 import com.yelogy.base.BaseActivity
+import com.yelogy.base.BaseRepository
+import com.yelogy.deliveryaddress.NearByStoreRequest
+import com.yelogy.deliveryaddress.NearByStoreResponse
+import com.yelogy.signup.SignupResponse
 import com.yelogy.utill.AppRequestCodes
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,7 +47,7 @@ import kotlinx.android.synthetic.main.activity_location_picker.*
 import kotlinx.android.synthetic.main.app_bar_main2.*
 import java.util.*
 
-class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
+class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraIdleListener,
         LocationListener {
     override fun hasToolBar(): Boolean {
@@ -52,16 +58,17 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
     private var googleMap: GoogleMap? = null
     private var currentLocationMarker: Marker? = null
     private var locationManager: LocationManager? = null
-
+    private lateinit var baseRepositry: BaseRepository
+    private var isFromSearch = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_picker)
-
-        toolbarTitle.text=getString(R.string.location)
+        baseRepositry = BaseRepository(this)
+        toolbarTitle.text = getString(R.string.location)
         intializeGUI(savedInstanceState)
 
-        searchDeliveryAddress.setOnClickListener{
+        searchDeliveryAddress.setOnClickListener {
             try {
                 val intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(this)
                 startActivityForResult(intent, AppRequestCodes.PLACE_AUTOCOMPLETE_REQUEST_CODE)
@@ -72,8 +79,8 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
             }
         }
 
-        mapDoneButton.setOnClickListener{
-            Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_ADDRESS,deliveryAddresstxt.text.toString())
+        mapDoneButton.setOnClickListener {
+            Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_ADDRESS, deliveryAddresstxt.text.toString())
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
@@ -84,7 +91,6 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
     }
 
     private fun intializeGUI(savedInstanceState: Bundle?) {
-
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -97,7 +103,6 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
     public override fun onResume() {
         super.onResume()
         mMapView!!.onResume()
-
         if (!isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showGpsRequest()
         }
@@ -137,17 +142,6 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         return false
     }
 
-    private fun showGpsRequest() {
-
-        val mAlertDialog = AlertDialog.Builder(this)
-        mAlertDialog.setTitle(R.string.location_service_disabled_title)
-                .setMessage(R.string.location_service_disabled_text)
-                .setPositiveButton(R.string.enable) { _, _ ->
-                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    startActivity(intent)
-                }.show()
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
 
         val ivPin = ImageView(this)
@@ -166,15 +160,16 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
 
         this.googleMap!!.isBuildingsEnabled = false
         this.googleMap!!.isTrafficEnabled = false
-        //this.googleMap!!.isMyLocationEnabled = true
+
         this.googleMap!!.uiSettings.isCompassEnabled = false
         this.googleMap!!.uiSettings.isMapToolbarEnabled = false
         this.googleMap!!.uiSettings.isTiltGesturesEnabled = false
         this.googleMap!!.uiSettings.isZoomControlsEnabled = false
         this.googleMap!!.uiSettings.isRotateGesturesEnabled = false
 
+
         //        this.googleMap.setOnMarkerClickListener(this);
-        this.googleMap!!.setOnCameraMoveListener(this)
+        this.googleMap!!.setOnCameraMoveStartedListener(this)
         this.googleMap!!.setOnCameraIdleListener(this)
 
         if (ActivityCompat.checkSelfPermission(
@@ -197,7 +192,8 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
             }
 
         } else {
-
+            this.googleMap!!.isMyLocationEnabled = true
+            googleMap.uiSettings.isMyLocationButtonEnabled = true
             if (isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
                 if (locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
@@ -244,16 +240,10 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         geoLocationAddressAPI(latLng)
     }
 
-    override fun onCameraMove() {
-
-//        Log.d("---------onCameraMove", "------------------------");
-//        Log.d("latitude", ">>" + this.googleMap?.getCameraPosition()?.target?.latitude);
-//        Log.d("longitude", ">>" + this.googleMap?.getCameraPosition()?.target?.longitude);
-//        Log.d("zoom", ">>" + this.googleMap?.getCameraPosition()?.zoom);
-//
-//
-//        Log.d("--------------------", "------------------------");
+    override fun onCameraMoveStarted(p0: Int) {
+        addressll.visibility = View.GONE
     }
+
 
     override fun onLocationChanged(location: Location) {
 
@@ -273,6 +263,8 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         /*   currentLocationMarker = this.googleMap!!.addMarker(MarkerOptions().position(latLng)
                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)).anchor(0.5f, 0.5f))*/
         googleMap!!.animateCamera(cameraUpdate)
+        locationManager?.removeUpdates(this)
+
     }
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -291,6 +283,8 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == 10 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            this.googleMap?.isMyLocationEnabled = true
+            this.googleMap?.uiSettings?.isMyLocationButtonEnabled = true
             locationManager!!.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     MIN_TIME,
@@ -315,7 +309,7 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { addresses ->
-                            if (/*addresses != null && */addresses.size > 0) {
+                            if (addresses.size > 0) {
 
                                 val address = addresses[0]
                                 var fullAddress = ""
@@ -323,7 +317,11 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
                                 Log.d("addresses", ">>" + Arrays.toString(addresses.toTypedArray()))
                                 Log.d("addresses", ">>" + Arrays.toString(addresses.toTypedArray()))
                                 val complete_address = addresses[0].getAddressLine(0)
-                                deliveryAddresstxt.text = complete_address
+                                if (isFromSearch)
+                                    isFromSearch = false
+                                else
+                                    deliveryAddresstxt.text = complete_address
+
                                 for (i in 0 until address.maxAddressLineIndex + 1) {
                                     Log.d("getAddressLine$i", ">>" + address.getAddressLine(i))
                                     if (i == 0)
@@ -345,14 +343,9 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
                                 locality = if (address.locality != null) address.locality else ""
 
                                 val name = subThoroughfare + thoroughfare + subLocality + locality
-                                // hideLoading()
 
-                                checkAddress(intent, latLng)
-//                                startActivity(intent)
-//                                finish()
-                            } else {
-                                //hideLoading()
-                                // Utils.getInstance().showToast(this, getString(R.string.error_address_not_found))
+                                checkLocation(address.latitude, address.longitude, address.postalCode)
+//
                             }
                         },
                         { error ->
@@ -363,33 +356,28 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
                 )
     }
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private fun checkAddress(intent: Intent, latLng: LatLng) {
+    private fun checkLocation(latitude: Double, longitude: Double, pincode: String) {
+        val nearByRequst = NearByStoreRequest()
+        nearByRequst.pincode = pincode
+        nearByRequst.latitude = latitude.toString()
+        nearByRequst.longitude = longitude.toString()
 
-//        val addDeliveryAddressRequest = HashMap<String, String>()
-//        addDeliveryAddressRequest["user_id"] = pref!!.getPreferenceStringData(pref!!.KEY_USER_ID)
-//        addDeliveryAddressRequest["latitude"] = latLng.latitude.toString()
-//        addDeliveryAddressRequest["longitude"] = latLng.longitude.toString()
-//        addDeliveryAddressRequest["language"] = DrewelApplication.getInstance().getLanguage()
-//        val signUpObservable = DrewelApplication.getInstance().getRequestQueue().create(DrewelApi::class.java).checkAddress(addDeliveryAddressRequest)
-//        compositeDisposable.add(signUpObservable.subscribeOn(Schedulers.newThread())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ result ->
-//                hideLoading()
-////                    DrewelApplication.getInstance().logoutWhenAccountDeactivated(result.response!!.isDeactivate!!, this)
-//                if (result.response!!.status!!) {
-//                    startActivity(intent)
-//                    finish()
-//                } else {
-//                    Utils.getInstance().showToast(this, result.response!!.message!!)
-//                }
-//            }, { error ->
-//                hideLoading()
-//                Utils.getInstance().showToast(this, error.message!!)
-//                Log.e("TAG", "{$error.message}")
-//            }
-//            ))
+        val nearByStoreResponse = baseRepositry.getNearByStores(nearByRequst)
+
+        nearByStoreResponse.observe(this@DeliveryAddessPickupActivity, Observer<NearByStoreResponse>
+        { reseponse ->
+
+            if (reseponse?.status == true) {
+                addressll.visibility = View.VISIBLE
+            } else {
+                addressll.visibility = View.VISIBLE
+                ToastUtils.showLong("Soory, we do not serve in this area.\nPlease select another area.")
+            }
+
+
+        })
     }
+
 
     var place: Place? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -398,7 +386,7 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
 
             when (resultCode) {
                 Activity.RESULT_OK -> {
-
+                    isFromSearch = true
                     place = PlaceAutocomplete.getPlace(this, data!!)
 
                     Log.i("onActivityResult", "Place: " + place!!.name)
@@ -408,7 +396,7 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
                     val latLng = LatLng(place!!.latLng.latitude, place!!.latLng.longitude)
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14f)
                     googleMap!!.animateCamera(cameraUpdate)
-                    searchDeliveryAddress.text = place!!.name
+                    deliveryAddresstxt.text = place!!.address
 
                 }
                 PlaceAutocomplete.RESULT_ERROR -> {
@@ -423,10 +411,5 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         }
     }
 
-    companion object {
-
-        private const val MIN_TIME: Long = 400
-        private const val MIN_DISTANCE = 1000f
-    }
 
 }

@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <variable name="viewModel"
-         type="com.yelogy.signup.SignupViewModel"/>
+        <variable
+            name="viewModel"
+            type="com.yelogy.signup.SignupViewModel" />
     </data>
 
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-    <include layout="@layout/app_bar_main2"/>
+        <include layout="@layout/app_bar_main2" />
 
 
-    <ScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="@dimen/_10sdp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/pinCodeTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:errorTextAppearance="@style/error_appearance"
                     app:error="@{viewModel.pincode_error}"
+                    app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/pinCodeEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -46,21 +48,21 @@
                         android:hint="@string/pin_code"
                         android:inputType="number"
                         android:maxLength="20"
-                android:text="@={viewModel.signUpRequest.pincode}"/>
-            </android.support.design.widget.TextInputLayout>
+                        android:text="@={viewModel.signUpRequest.pincode}" />
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/firstNameTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    app:errorTextAppearance="@style/error_appearance"
                     app:error="@{viewModel.firstname_error}"
+                    app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toBottomOf="@+id/pinCodeTextLayout">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/firstNameEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -69,14 +71,13 @@
                         android:inputType="textPersonName"
                         android:maxLength="20"
 
-                        app:backgroundTint="@color/colorPrimary"
                         android:text="@={viewModel.signUpRequest.firstName}"
-                />
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
-            <!--android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"-->
+                </android.support.design.widget.TextInputLayout>
+                <!--android:digits="qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"-->
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/lastNameTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
@@ -85,7 +86,7 @@
                     app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toBottomOf="@+id/firstNameTextLayout">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/lastNameEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -93,49 +94,48 @@
                         android:hint="@string/last_name"
                         android:inputType="textPersonName"
                         android:maxLength="30"
-                        app:backgroundTint="@color/colorPrimary"
-                        android:text="@={viewModel.signUpRequest.lastName}"/>
+                        android:text="@={viewModel.signUpRequest.lastName}"
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
 
-
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/phoneNumberTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    app:error="@{viewModel.mobile_error}"
                     app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lastNameTextLayout"
-                    app:error="@{viewModel.mobile_error}">
+                    app:layout_constraintTop_toBottomOf="@+id/lastNameTextLayout">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/phoneNumberEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/mobile_number"
                         android:inputType="number"
-                        app:backgroundTint="@color/colorPrimary"
-                        android:text="@={viewModel.signUpRequest.mobileNumber}"/>
+                        android:text="@={viewModel.signUpRequest.mobileNumber}"
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/emailAddressTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    app:error="@{viewModel.emailError}"
                     app:errorTextAppearance="@style/error_appearance"
-                    app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextLayout"
-                    app:error="@{viewModel.emailError}">
+                    app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextLayout">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/emailAddressEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -143,23 +143,23 @@
                         android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
-                        app:backgroundTint="@color/colorPrimary"
-                        android:text="@={viewModel.signUpRequest.email}"/>
+                        android:text="@={viewModel.signUpRequest.email}"
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/passwordTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    app:error="@{viewModel.passowrd_error}"
                     app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toBottomOf="@+id/emailAddressTextLayout"
-                    app:passwordToggleEnabled="true"
-                    app:error="@{viewModel.passowrd_error}">
+                    app:passwordToggleEnabled="true">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/passwordEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -167,24 +167,24 @@
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:maxLength="30"
-                        app:backgroundTint="@color/colorPrimary"
-                        android:text="@={viewModel.signUpRequest.password}"/>
+                        android:text="@={viewModel.signUpRequest.password}"
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/confirmPasswordTextLayout"
                     style="@style/LoginEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
+                    app:error="@{viewModel.confirmpassword_error}"
                     app:errorTextAppearance="@style/error_appearance"
                     app:layout_constraintTop_toBottomOf="@+id/passwordTextLayout"
-                    app:passwordToggleEnabled="true"
-                    app:error="@{viewModel.confirmpassword_error}">
+                    app:passwordToggleEnabled="true">
 
-                <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/confirmPasswordEditText"
                         style="@style/LoginEditTextStyle"
                         android:layout_width="match_parent"
@@ -192,32 +192,27 @@
                         android:hint="@string/confirm_password"
                         android:inputType="textPassword"
                         android:maxLength="30"
-                        app:backgroundTint="@color/colorPrimary"
-                        android:text="@={viewModel.signUpRequest.confirmPassword}"/>
+                        android:text="@={viewModel.signUpRequest.confirmPassword}"
+                        app:backgroundTint="@color/colorPrimary" />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatButton
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/signUpButton"
                     style="@style/ButtonTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:onClick="@{()-> viewModel.onSingupClick()}"
                     android:text="@string/signup"
                     app:backgroundTint="@color/colorPrimary"
-                    android:onClick="@{()-> viewModel.onSingupClick()}"
                     app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextLayout" />
 
 
-        </android.support.constraint.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
-
-
+        </ScrollView>
 
 
-
-
-
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
