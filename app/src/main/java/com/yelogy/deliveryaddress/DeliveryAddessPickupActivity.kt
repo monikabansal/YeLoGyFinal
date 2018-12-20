@@ -1,4 +1,4 @@
-package com.yelogy
+package com.yelogy.deliveryaddress
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -13,9 +13,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -33,15 +31,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.os.drewel.prefrences.Prefs
+import com.yelogy.MainActivity
+import com.yelogy.R
 import com.yelogy.base.BaseActivity
 import com.yelogy.base.BaseRepository
-import com.yelogy.deliveryaddress.NearByStoreRequest
-import com.yelogy.deliveryaddress.NearByStoreResponse
-import com.yelogy.signup.SignupResponse
 import com.yelogy.utill.AppRequestCodes
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_location_picker.*
 import kotlinx.android.synthetic.main.app_bar_main2.*
@@ -60,6 +56,10 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
     private var locationManager: LocationManager? = null
     private lateinit var baseRepositry: BaseRepository
     private var isFromSearch = false
+
+    private var latitude=0.0
+    private var longitude=0.0
+    private var pincode=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +81,10 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
 
         mapDoneButton.setOnClickListener {
             Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_ADDRESS, deliveryAddresstxt.text.toString())
+            Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_LAT, latitude.toString())
+            Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_LANG, longitude.toString())
+            Prefs.getInstance(this).setPreferenceStringData(Prefs.KEY_DELIVERY_PIN_CODE, pincode)
+
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
@@ -361,6 +365,10 @@ class DeliveryAddessPickupActivity : BaseActivity(), OnMapReadyCallback, GoogleM
         nearByRequst.pincode = pincode
         nearByRequst.latitude = latitude.toString()
         nearByRequst.longitude = longitude.toString()
+
+        this.latitude=latitude
+        this.longitude=longitude
+        this.pincode=pincode
 
         val nearByStoreResponse = baseRepositry.getNearByStores(nearByRequst)
 

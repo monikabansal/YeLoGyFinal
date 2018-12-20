@@ -17,6 +17,11 @@
 package com.yelogy.utill
 
 import android.content.Context
+import com.yelogy.category.CategoryRepostiory
+import com.yelogy.category.CategoryViewModel
+import com.yelogy.category.CategoryViewModelFactory
+import com.yelogy.home.HomeRepository
+import com.yelogy.home.HomeViewModelFactory
 import com.yelogy.login.LoginRepository
 import com.yelogy.login.LoginViewModelFactory
 import com.yelogy.signup.SignupRepository
@@ -39,4 +44,17 @@ object InjectorUtils {
         val loginRepository=LoginRepository(context)
         return LoginViewModelFactory(loginRepository)
     }
+
+    fun provideHomeViewModelFactory(context: Context): HomeViewModelFactory {
+
+        val homeRepository=HomeRepository(context)
+        return HomeViewModelFactory(homeRepository)
+    }
+
+    fun provideCategoryViewModelFactory(context: Context): CategoryViewModelFactory {
+
+        val categoryRepostiory=CategoryRepostiory(context)
+        return CategoryViewModelFactory(categoryRepostiory)
+    }
+
 }

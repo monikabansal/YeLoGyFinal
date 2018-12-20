@@ -1,0 +1,39 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="category"
+            type="com.yelogy.category.reuestresponse.CategoryListResponse.Datum" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp">
+
+
+        <ImageView
+            android:id="@+id/categoryImg"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@mipmap/view_cart_product_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/gray_text_color"
+            android:textSize="@dimen/_12sdp"
+            android:padding="@dimen/_1sdp"
+            android:text="@{category.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryImg" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

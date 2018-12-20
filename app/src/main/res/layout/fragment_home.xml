@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
 
+        <variable
+            name="viewmodel"
+            type="com.yelogy.home.HomeViewModel" />
+    </data>
 
-        <android.support.v4.widget.NestedScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:descendantFocusability="blocksDescendants">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/search_product"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="@dimen/_40sdp"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableStart="@mipmap/home_search_icon"
@@ -39,63 +44,66 @@
                     android:textColorHint="@color/gray_text_color"
                     android:textSize="@dimen/_13sdp" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/search"
-                        android:background="@color/colorPrimary"
-                        android:textColor="@color/white"
-                        android:drawableEnd="@mipmap/arrow"
-                        android:drawableTint="@color/white"
-                        android:drawablePadding="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_marginBottom="@dimen/_2sdp"
-                        android:paddingEnd="@dimen/_5sdp"
-                        android:paddingStart="@dimen/_5sdp"
-                        android:textSize="@dimen/_10sdp"/>
-                </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:background="@color/colorPrimary"
+                    android:drawableEnd="@mipmap/arrow"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:drawableTint="@color/white"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:text="@string/search"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
 
-                <RelativeLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_146sdp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/bannerPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_146sdp">
+                    android:layout_height="wrap_content" />
 
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/bannerPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <com.rd.PageIndicatorView
-                        android:id="@+id/pageIndicatorView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:padding="@dimen/_8sdp"
-                        app:piv_radius="@dimen/_4sdp"
-                        app:piv_selectedColor="@color/colorPrimary"
-                        app:piv_unselectedColor="@color/violet" />
-                </RelativeLayout>
-                <TextView
+                <com.rd.PageIndicatorView
+                    android:id="@+id/pageIndicatorView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/outlate_near_me"
-                    android:textColor="@color/gray_text_color"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_20sdp"
-                    android:textSize="@dimen/_14sdp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/grey_color_txt"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:descendantFocusability="blocksDescendants"/>
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/_8sdp"
+                    app:piv_radius="@dimen/_4sdp"
+                    app:piv_selectedColor="@color/colorPrimary"
+                    app:piv_unselectedColor="@color/violet" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:text="@string/outlate_near_me"
+                android:textColor="@color/gray_text_color"
+                android:textSize="@dimen/_14sdp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/grey_color_txt" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:descendantFocusability="blocksDescendants" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </layout>

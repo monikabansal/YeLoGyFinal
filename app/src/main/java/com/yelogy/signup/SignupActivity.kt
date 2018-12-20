@@ -1,7 +1,6 @@
 package com.yelogy.signup
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -16,14 +15,11 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.util.Log
-import com.google.android.gms.maps.model.LatLng
-import com.yelogy.DeliveryAddessPickupActivity
 import com.yelogy.MainActivity
 import com.yelogy.R
 import com.yelogy.base.BaseActivity
 import com.yelogy.databinding.ActivitySignupBinding
 import com.yelogy.utill.InjectorUtils
-import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.app_bar_main2.*
 import java.util.*
 

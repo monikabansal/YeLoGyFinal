@@ -1,5 +1,6 @@
 package com.yelogy.apiclient
 
+import com.yelogy.category.reuestresponse.CategoryListResponse
 import com.yelogy.deliveryaddress.NearByStoreResponse
 import com.yelogy.signup.SignupResponse
 import io.reactivex.Observable
@@ -26,5 +27,10 @@ interface YelogyApi {
     @FormUrlEncoded
     @POST("near_by_store")
     fun nearByStore(@FieldMap nearByStoreRequest: Map<String, String>): Observable<NearByStoreResponse>
+
+
+    @FormUrlEncoded
+    @POST("cat_subcat")
+    fun categorySubCat(@Field("store_id") store_id: String): Observable<CategoryListResponse>
 
 }

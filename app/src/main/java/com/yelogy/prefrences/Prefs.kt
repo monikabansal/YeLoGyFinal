@@ -32,6 +32,7 @@ class Prefs(internal  var context: Context?) {
         val KEY_DELIVERY_ADDRESS = "KEY_DELIVERY_ADDRESS"
         val KEY_DELIVERY_LAT = "KEY_DELIVERY_LAT"
         val KEY_DELIVERY_LANG = "KEY_DELIVERY_LANG"
+        val KEY_DELIVERY_PIN_CODE = "KEY_DELIVERY_PIN_CODE"
 
     }
 

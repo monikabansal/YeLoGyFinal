@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.os.drewel.prefrences.Prefs
-import com.yelogy.DeliveryAddessPickupActivity
+import com.yelogy.deliveryaddress.DeliveryAddessPickupActivity
 import com.yelogy.MainActivity
 import com.yelogy.R
 import io.reactivex.Observable
